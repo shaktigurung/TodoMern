@@ -1,8 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga');
 const mongoose = require("mongoose");
+require('dotenv').config();
 
 //Mongoose Connection
-mongoose.connect('mongodb://localhost/todoapp', { useNewUrlParser: true });
+mongoose.connect(process.env.mongodburi, { useNewUrlParser: true });
 
 // Schema
 const Todo = mongoose.model("Todo", {
@@ -53,5 +54,5 @@ const resolvers = {
 const server = new GraphQLServer({ typeDefs, resolvers });
 mongoose.connection.once('open', function() {
     //we are connected
-    server.start(() => console.log('Server is running on localhost:4000'));
+    server.start(() => console.log(`Server is running on ${process.env.PORT}`));
 })
